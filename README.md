@@ -2,7 +2,7 @@
 
 备忘笔记、记录坑
 
-## webpack
+## Webpack
 
 > [webpack中文文档](https://doc.webpack-china.org/)
 
@@ -28,6 +28,10 @@
 - [webpack 使用优化指南](http://www.cnblogs.com/yumeiqiang/p/5281170.html)
 - [vue-cli中的webpack配置](https://segmentfault.com/a/1190000008779053)
 
-## gulp
+## Gulp
 
 todo...
+
+## Vue
+
+- [组件](./vue/组件.md)
