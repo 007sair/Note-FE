@@ -10,7 +10,7 @@ cnpm install style-loader css-loader sass-loader node-sass --save-dev
 
 - `sass-loader`依赖于`node-sass`，所以需要安装`node-sass`
 - `css-loader`使你能够使用类似`@import`和`url(…)`的方法实现`require()`的功能
-- `style-loader`将所有的计算后的样式加入页面中；
+- `style-loader`将所有的计算后的样式加入页面中
 
 ``` js
 //webpack3

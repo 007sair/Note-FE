@@ -11,9 +11,9 @@ module.exports = {
     devtool: 'eval-source-map', //见下方
 
     // 配置需要打包的入口文件，值可以是字符串、数组、对象。
-    // 1. 字符串： entry： './entry'
-    // 2. 字符串： entry：[ './entry1','entry2'] (多入口)
-    // 3. 对象：   entry： {alert/index': path.resolve(pagesDir, `./alert/index/page`)}
+    // 1. 字符串： entry: './entry'
+    // 2. 字符串： entry: [ './entry1','entry2'] (多入口)
+    // 3. 对象：   entry: { 'alert/index': path.resolve(pagesDir, `./alert/index/page`)}
     // 多入口书写的形式应为object，因为object,的key在webpack里相当于此入口的name,
     entry: __dirname + "/src/scripts/index.js",
 
