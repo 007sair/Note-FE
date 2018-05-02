@@ -2,6 +2,477 @@
 
 > 其他链接：[30 秒就能理解的 JavaScript 代码片段](http://www.css88.com/30-seconds-of-code/)
 
+
+<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+
+<!-- code_chunk_output -->
+
+* [代码片段](#代码片段)
+	* [is](#is)
+	* [img error](#img-error)
+	* [关于内核](#关于内核)
+	* [css前缀相关](#css前缀相关)
+	* [获取元素的宽高等](#获取元素的宽高等)
+	* [获取css样式](#获取css样式)
+	* [Polyfill](#polyfill)
+	* [四舍五入](#四舍五入)
+	* [点击空白处关闭某容器](#点击空白处关闭某容器)
+	* [toApp](#toapp)
+	* [offset](#offset)
+	* [生成随机数](#生成随机数)
+	* [比较ua版本号](#比较ua版本号)
+	* [验证css属性在浏览器中是否支持](#验证css属性在浏览器中是否支持)
+	* [浮点数取整](#浮点数取整)
+	* [生成6位数字验证码](#生成6位数字验证码)
+	* [16进制颜色代码生成](#16进制颜色代码生成)
+	* [n维数组展开成一维数组](#n维数组展开成一维数组)
+	* [驼峰命名转下划线](#驼峰命名转下划线)
+	* [trim](#trim)
+	* [获取url的参数](#获取url的参数)
+	* [特殊字符转义](#特殊字符转义)
+	* [动态插入js](#动态插入js)
+	* [格式化数量](#格式化数量)
+	* [身份证验证](#身份证验证)
+	* [单行写一个评级组件](#单行写一个评级组件)
+	* [匿名函数自执行写法](#匿名函数自执行写法)
+	* [两个整数交换数值](#两个整数交换数值)
+	* [用最短的代码实现一个长度为m(6)且值都n(8)的数组](#用最短的代码实现一个长度为m6且值都n8的数组)
+	* [将argruments对象转换成数组](#将argruments对象转换成数组)
+	* [最短的代码实现数组去重](#最短的代码实现数组去重)
+	* [JavaScript 错误处理的方式的正确姿势](#javascript-错误处理的方式的正确姿势)
+	* [在浏览器中根据url下载文件](#在浏览器中根据url下载文件)
+	* [快速生成UUID](#快速生成uuid)
+	* [JavaScript浮点数精度问题](#javascript浮点数精度问题)
+	* [格式化表单数据](#格式化表单数据)
+	* [创建指定长度非空数组](#创建指定长度非空数组)
+	* [验证是否为负数的正则表达式](#验证是否为负数的正则表达式)
+	* [数字四舍五入](#数字四舍五入)
+	* [使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1](#使用-~xindexofy来简化-xindexofy-1)
+	* [统计字符串中相同字符出现的次数](#统计字符串中相同字符出现的次数)
+	* [测试质数](#测试质数)
+	* [截取指定字节数的字符串](#截取指定字节数的字符串)
+	* [获取时间格式的几个举例](#获取时间格式的几个举例)
+	* [文本相关](#文本相关)
+	* [对象克隆、深拷贝](#对象克隆-深拷贝)
+	* [js正则为url添加http标识](#js正则为url添加http标识)
+	* [URL有效性校验方法](#url有效性校验方法)
+	* [自定义封装jsonp方法](#自定义封装jsonp方法)
+	* [cookie操作](#cookie操作)
+	* [生成随机字符串 (可指定长度)](#生成随机字符串-可指定长度)
+	* [浏览器判断](#浏览器判断)
+	* [Rem移动端适配](#rem移动端适配)
+
+<!-- /code_chunk_output -->
+
+## is
+
+``` js
+/**
+ * 判断是否为app内
+ * @returns {Boolean}
+ */
+function isApp() {
+    var href = window.location.href;
+    var re = href.indexOf('_app');
+    if (navigator.userAgent.indexOf('miyabaobei_') > -1 || re !== -1) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * 判断微信浏览器
+ * @returns {Boolean}
+ */
+function isWeiXin() {
+    var ua = window.navigator.userAgent.toLowerCase();
+    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+        return true;
+    } else {
+        return false;
+    }
+}
+```
+
+## img error
+
+``` html
+<img src="xx.jpg" onerror="this.src='placeholder.jpg';" alt="">
+```
+
+## 关于内核
+
+- `webkit`内核的浏览器，比如`chrome`，`safari`的css3前缀为`-webkit-transform`
+- `Gecko`内核的浏览器，如`firefox`支持的css3前缀为`-moz-transform`
+- `Trident`内核的浏览器，如`IE`支持的css3前缀为`-ms-transform`
+- `Presto`内核浏览器，如`Opera`支持的css3前缀为`-o-transform`
+
+<!-- more -->
+
+## css前缀相关
+
+``` js
+// 获取到一个CSSStyleDeclaration对象，它是一个CSS属性键值对的集合。
+var divStyle = document.createElement('div').style;
+
+/**
+ * 将css前缀转为驼峰规则，如：-webkit-box-pack -> WebkitBoxPack
+ * @param {string} str css写法前缀
+ */
+function camelCase(str) {
+    return (str + '').replace(/^-ms-/, 'ms-').replace(/-([a-z]|[0-9])/ig, function(all, letter) {
+        return (letter + '').toUpperCase();
+    })
+}
+
+/**
+ * 将驼峰写法前缀转换为 -xx- 写法
+ * @param {string} str 驼峰式写法
+ */
+function unCamelCase(str) {
+    return str.replace(/([A-Z]|^ms)/g, "-$1").toLowerCase();
+}
+
+/**
+ * 返回当前浏览器的前缀，如：chrome下返回 -webkit-  字符串
+ */
+function cssVender() {
+    var ds = divStyle,
+        cases = ['-webkit-', '-moz-', '-ms-', '-o-', ''],
+        i = 0;
+    do {
+        if (camelCase(cases[i] + 'transform') in ds) {
+            return cases[i];
+        }
+    } while (++i < cases.length);
+    return '';
+}
+
+/**
+ * 返回浏览器支持的带前缀属性，如：chrome下，box-pack -> -webkit-box-pack
+ * @param {string} property 传入的css属性名
+ */
+function fixCSS(property) {
+    var ds = divStyle,
+        pre = cssVender();
+    return (camelCase(property) in ds) && property || (camelCase(pre + property) in ds) && pre + property || property;
+}
+
+/**
+ * 返回js特性的前缀，如：chrome下，box-pack -> WebkitBoxPack
+ * @param {string} property 传入css属性名
+ */
+function isCSS(property) {
+    var name = camelCase(fixCSS(property));
+    return (name in divStyle) && name || '';
+}
+```
+
+## 获取元素的宽高等
+
+使用原生js，有两种方法获取元素宽高
+
+``` js
+var elem = document.getElementById('js-test');
+
+// 方法1：
+var width = elem.offsetWidth,
+    height = elem.offsetHeight,
+    left = elem.offsetLeft,
+    top = elem.offsetTop;
+
+// 方法2：
+// IE中调用该方法的返回对象没有width， height这两个属性，因此做了简单的兼容处理
+var rect = elem.getBoundingClientRect(),
+    top = rect.top,
+    left = rect.left,
+    right = rect.right,
+    bottom = rect.bottom,
+    width = rect.width || (right - left),
+    height = rect.height || (bottom - top);
+```
+
+注意，`obj.offsetTop`属性获取的值是绝对的，不会随页面滚动而发生变化。但`getBoundingClientRect()`获取的`top`和`left`属性值是相对于视窗的，会随浏览器滚动而发生变化，若实现`offsetTop`一样效果，可以做如下处理：
+
+``` js
+var elem = document.getElementById('js-btn');
+
+window.addEventListener('scroll', function () {
+    // 获取滚动距离，做了兼容处理
+    var scrollTop = (((t = document.documentElement) || (t = document.body.parentNode)) && typeof t.scrollTop == 'number' ? t : document.body).scrollTop;
+    var scrollLeft = (((t = document.documentElement) || (t = document.body.parentNode)) && typeof t.scrollLeft == 'number' ? t : document.body).scrollLeft;
+
+    // 即时获取元素属性
+    var rect = elem.getBoundingClientRect();
+
+    console.log(elem.offsetTop);
+    console.log(rect.top + scrollTop);
+})
+```
+
+注意：`offsetTop`获取的值为整数，而`getBoundingClientRect().top`获取到的值有可能是小数，四舍五入后与`offsetTop`相同。
+
+关于`getBoundingClientRect`的兼容性，查看[MDN - getBoundingClientRect](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect)
+
+## 获取css样式
+
+当我们在使用rem单位时，经常会碰到小数点的单位，而某些属性是不会拿到小数点单位的。测试如下：
+
+``` js
+function getStyle(obj, attr) {
+    if (obj.currentStyle) { // ie6/7/8
+        return obj.currentStyle[attr];
+    } else { // 9+
+        return getComputedStyle(obj, false)[attr];
+    }
+}
+
+var testElem = document.getElementById('js-btn');
+testElem.style.width = '98.5px';
+
+console.log(getStyle(testElem, 'width')); // '98.5px'
+console.log(testElem.offsetWidth); // 99
+```
+
+## Polyfill
+
+``` js
+// test Event
+var touch = "ontouchstart" in document ? 'touchstart' : 'mousedown';
+
+// device
+var _device = (window.location.href.indexOf('m.mia.com') > -1 || window.location.href.indexOf('m.miyabaobei.com') > -1) ? 'wap' : 'pc';
+```
+
+## 四舍五入
+
+``` js
+/**
+* 四舍五入小数点
+* @param {[number]} src [输入的数字]
+* @param {[number]} pos [精确到后几位]
+* @return {[number]}
+*/
+function fomatFloat(src, pos) {
+    if (!arguments.length) return -1;
+    if (!isNaN(src)) {
+        pos = (src > 0 && src < 1) ? 2 : pos || 1;
+        return Math.round(src * Math.pow(10, pos)) / Math.pow(10, pos);
+    }
+    return src
+}
+
+fomatFloat(3.1415927, 3) //3.142
+```
+
+## 点击空白处关闭某容器
+
+``` js
+$(document).on("click", function (e) {
+    var target = $(e.target);
+    // .closest()沿 DOM 树向上遍历，直到找到已应用选择器的一个匹配为止，返回包含零个或一个元素的 jQuery 对象。
+    if (target.closest(".lenovoWord").length == 0) {
+        $(".lenovoWord").hide();
+    };
+    e.stopPropagation();
+});
+```
+
+## toApp
+
+``` js
+// old
+function testApp(url) {
+    var timeout, t = 1000, hasApp = true;
+    setTimeout(function () {
+        if (hasApp) {
+            alert('安装了app');
+        } else {
+            alert('未安装app');
+        }
+        document.body.removeChild(ifr);
+    }, 2000)
+
+    var t1 = Date.now();
+    var ifr = document.createElement("iframe");
+    ifr.setAttribute('src', url);
+    ifr.setAttribute('style', 'display:none');
+    document.body.appendChild(ifr);
+    timeout = setTimeout(function () {
+        var t2 = Date.now();
+        if (!t1 || t2 - t1 < t + 100) {
+            hasApp = false;
+        }
+    }, t);
+}
+
+#example
+<a href="javascript:testApp('地址地址地址')">团购</a>
+
+// new
+function openApp(appUrl, callback) {
+    // 检查app是否打开
+    function checkOpen(cb) {
+        var _clickTime = +(new Date());
+
+        function check(elsTime) {
+            if (elsTime > 3000 || document.hidden || document.webkitHidden) {
+                cb(1);
+            } else {
+                cb(0);
+            }
+        }
+        //启动间隔20ms运行的定时器，并检测累计消耗时间是否超过3000ms，超过则结束
+        var _count = 0,
+            intHandle;
+        intHandle = setInterval(function () {
+            _count++;
+            var elsTime = +(new Date()) - _clickTime;
+            if (_count >= 100 || elsTime > 3000) {
+                clearInterval(intHandle);
+                check(elsTime);
+            }
+        }, 20);
+    }
+
+    //在iframe 中打开APP
+    var ifr = document.createElement('iframe');
+    ifr.src = appUrl;
+    ifr.style.display = 'none';
+    if (callback) {
+        checkOpen(function (opened) {
+            callback && callback(opened);
+        });
+    }
+
+    document.body.appendChild(ifr);
+    setTimeout(function () {
+        document.body.removeChild(ifr);
+    }, 2000);
+}
+
+// iosVersion
+var ios_reg = userAgent.match(/os (\d+)_(\d+)_?(\d+)?/),
+    ios_ver = ios_reg ? parseInt(ios_reg[1], 10) : 0;
+
+// invoke
+var td_url = 'http://www.mia.com/dowmApp.html',
+    call_url = 'miyabaobei://';
+$('body').on('click', 'a.mia-downApp', function () {
+    if (ios_ver >= 9) { //ios9+
+        setTimeout(function () { //0: 不加0的延迟会发生连续跳两次
+            window.location.href = call_url;
+            setTimeout(function () {
+                window.location.href = td_url;
+            }, 200)
+        }, 0)
+        return false
+    } else {
+        openApp(call_url, function (opened) { //opened = 0 || 1
+            if (!opened) { //未打开app
+                // window.location.href = td_url; #注释原因: self.opts.el的href已经有url 未打开app时会跳转这个url
+            }
+        })
+    }
+})
+
+
+#example
+<a class="mia-downApp" href="https://itunes.apple.com/cn/app/mi-ya-bao-bei-zhong-guo-zui/id973366293?mt=8"></a>
+```
+
+## offset
+
+``` js
+/**
+* 获取页面滚动条的滚动距离
+* @return {object} top 纵向滚动距离 left 横向滚动距离
+*/
+function scrollOffset() {
+    var supportPageOffset = window.pageXOffset !== undefined;
+    var isCSS1Compat = ((document.compatMode || "") === "CSS1Compat");
+    return {
+        top: supportPageOffset ? window.pageYOffset : isCSS1Compat ? document.documentElement.scrollTop : document.body.scrollTop,
+        left: supportPageOffset ? window.pageXOffset : isCSS1Compat ? document.documentElement.scrollLeft : document.body.scrollLeft
+    }
+}
+
+/**
+ * 获取元素在当前视窗中的各种属性
+ * @param {object} elem 传入元素 默认原生对象
+ * @return {object} top 当前元素距顶部的绝对值 left 当前元素距左侧的绝对值
+ */
+function offset(elem) {
+    elem = elem || {};
+    var box = elem.getBoundingClientRect();
+    // document.documentElement.clientTop document.documentElement.clientLeft 兼容ie7
+    return {
+        top: box.top - document.documentElement.clientTop + scrollOffset().top,
+        left: box.left - document.documentElement.clientLeft + scrollOffset().left,
+        right: box.right - document.documentElement.clientLeft + scrollOffset().left,
+        bottom: box.bottom - document.documentElement.clientTop + scrollOffset().top
+    }
+}
+```
+
+## 生成随机数
+
+``` js
+/**
+* 生成一个区间内的随机整数
+* @param   {number} min 最小值（包含）
+* @param   {number} max 最大值（包含）
+*/
+var rdm = function (min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+```
+
+## 比较ua版本号
+
+``` js
+var ua = 'miyabaobei_ios_5.5.0';
+
+/**
+* 当前版本与传入的版本号进行对比
+* 如果当前版本 < 传入版本 返回 0
+* 如果当前版本 >= 传入版本 返回 1
+* 其他返回 -1
+*/
+function compareVersion(ver) {
+    var regMiaUA = /miyabaobei_ios_(.*)/;
+    var res = regMiaUA.exec(ua);
+    if (res) {
+        if (res[1] < ver) {
+            return 0
+        }
+        return 1
+    } else {
+        console.warn('没有匹配到版本');
+        return -1;
+    }
+}
+
+console.log(compareVersion('5.5.3'));
+console.log(compareVersion('5.4'));
+console.log(compareVersion('5.5'));
+```
+
+## 验证css属性在浏览器中是否支持
+
+``` js
+var supportsPointerEvents = (function () {
+    var dummy = document.createElement('_');
+    if (!('pointerEvents' in dummy.style)) return false;
+    dummy.style.pointerEvents = 'auto';
+    dummy.style.pointerEvents = 'x';
+    document.body.appendChild(dummy);
+    var r = getComputedStyle(dummy).pointerEvents === 'auto';
+    document.body.removeChild(dummy);
+    return r;
+})();
+```
+
 ## 浮点数取整
 
 ``` js
@@ -566,23 +1037,6 @@ function cutString(str, len, suffix) {
 }
 ```
 
-## 判断是否微信
-
-``` js
-/**
- * 判断微信浏览器
- * @returns {Boolean}
- */
-function isWeiXin() {
-    var ua = window.navigator.userAgent.toLowerCase();
-    if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-        return true;
-    } else {
-        return false;
-    }
-}
-```
-
 ## 获取时间格式的几个举例
 
 ``` js
@@ -926,6 +1380,27 @@ function parseUA() {
 }
 var ua = parseUA();
 
+
+function identifyUA() {
+    var userAgent = navigator.userAgent.toLowerCase();
+    var platform = '';
+    if (userAgent == null || userAgent == '') {
+        platform = 'web';
+    } else {
+        if (userAgent.indexOf("android") != -1) {
+            platform = 'android';
+        } else if (userAgent.indexOf("ios") != -1 || userAgent.indexOf("iphone") != -1) {
+            platform = 'ios';
+        } else if (userAgent.indexOf("ipad") != -1) {
+            platform = 'ios';
+        } else if (userAgent.indexOf("windows phone") != -1) {
+            platform = 'windowsphone';
+        } else {
+            platform = 'web';
+        }
+    }
+    return platform;
+}
 ```
 
 ## Rem移动端适配
