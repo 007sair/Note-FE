@@ -2,6 +2,10 @@
 
 备忘笔记、记录坑
 
+## Javascript
+
+- [代码片段](./javascript/codes.md)
+
 ## Webpack
 
 > [webpack中文文档](https://doc.webpack-china.org/)
