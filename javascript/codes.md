@@ -2,69 +2,11 @@
 
 > 其他链接：[30 秒就能理解的 JavaScript 代码片段](http://www.css88.com/30-seconds-of-code/)
 
+[TOC]
 
-<!-- @import "[TOC]" {cmd="toc" depthFrom=1 depthTo=6 orderedList=false} -->
+## 验证相关
 
-<!-- code_chunk_output -->
-
-* [代码片段](#代码片段)
-	* [is](#is)
-	* [img error](#img-error)
-	* [关于内核](#关于内核)
-	* [css前缀相关](#css前缀相关)
-	* [获取元素的宽高等](#获取元素的宽高等)
-	* [获取css样式](#获取css样式)
-	* [Polyfill](#polyfill)
-	* [四舍五入](#四舍五入)
-	* [点击空白处关闭某容器](#点击空白处关闭某容器)
-	* [toApp](#toapp)
-	* [offset](#offset)
-	* [生成随机数](#生成随机数)
-	* [比较ua版本号](#比较ua版本号)
-	* [验证css属性在浏览器中是否支持](#验证css属性在浏览器中是否支持)
-	* [浮点数取整](#浮点数取整)
-	* [生成6位数字验证码](#生成6位数字验证码)
-	* [16进制颜色代码生成](#16进制颜色代码生成)
-	* [n维数组展开成一维数组](#n维数组展开成一维数组)
-	* [驼峰命名转下划线](#驼峰命名转下划线)
-	* [trim](#trim)
-	* [获取url的参数](#获取url的参数)
-	* [特殊字符转义](#特殊字符转义)
-	* [动态插入js](#动态插入js)
-	* [格式化数量](#格式化数量)
-	* [身份证验证](#身份证验证)
-	* [单行写一个评级组件](#单行写一个评级组件)
-	* [匿名函数自执行写法](#匿名函数自执行写法)
-	* [两个整数交换数值](#两个整数交换数值)
-	* [用最短的代码实现一个长度为m(6)且值都n(8)的数组](#用最短的代码实现一个长度为m6且值都n8的数组)
-	* [将argruments对象转换成数组](#将argruments对象转换成数组)
-	* [最短的代码实现数组去重](#最短的代码实现数组去重)
-	* [JavaScript 错误处理的方式的正确姿势](#javascript-错误处理的方式的正确姿势)
-	* [在浏览器中根据url下载文件](#在浏览器中根据url下载文件)
-	* [快速生成UUID](#快速生成uuid)
-	* [JavaScript浮点数精度问题](#javascript浮点数精度问题)
-	* [格式化表单数据](#格式化表单数据)
-	* [创建指定长度非空数组](#创建指定长度非空数组)
-	* [验证是否为负数的正则表达式](#验证是否为负数的正则表达式)
-	* [数字四舍五入](#数字四舍五入)
-	* [使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1](#使用-~xindexofy来简化-xindexofy-1)
-	* [统计字符串中相同字符出现的次数](#统计字符串中相同字符出现的次数)
-	* [测试质数](#测试质数)
-	* [截取指定字节数的字符串](#截取指定字节数的字符串)
-	* [获取时间格式的几个举例](#获取时间格式的几个举例)
-	* [文本相关](#文本相关)
-	* [对象克隆、深拷贝](#对象克隆-深拷贝)
-	* [js正则为url添加http标识](#js正则为url添加http标识)
-	* [URL有效性校验方法](#url有效性校验方法)
-	* [自定义封装jsonp方法](#自定义封装jsonp方法)
-	* [cookie操作](#cookie操作)
-	* [生成随机字符串 (可指定长度)](#生成随机字符串-可指定长度)
-	* [浏览器判断](#浏览器判断)
-	* [Rem移动端适配](#rem移动端适配)
-
-<!-- /code_chunk_output -->
-
-## is
+### is
 
 ``` js
 /**
@@ -94,22 +36,177 @@ function isWeiXin() {
 }
 ```
 
-## img error
+### 验证css属性在浏览器中是否支持
+
+``` js
+var supportsPointerEvents = (function () {
+    var dummy = document.createElement('_');
+    if (!('pointerEvents' in dummy.style)) return false;
+    dummy.style.pointerEvents = 'auto';
+    dummy.style.pointerEvents = 'x';
+    document.body.appendChild(dummy);
+    var r = getComputedStyle(dummy).pointerEvents === 'auto';
+    document.body.removeChild(dummy);
+    return r;
+})();
+```
+
+### 浏览器判断
+
+``` js
+function parseUA() {
+    var u = navigator.userAgent;
+    var u2 = navigator.userAgent.toLowerCase();
+    return { //移动终端浏览器版本信息
+        trident: u.indexOf('Trident') > -1,
+        //IE内核
+        presto: u.indexOf('Presto') > -1,
+        //opera内核
+        webKit: u.indexOf('AppleWebKit') > -1,
+        //苹果、谷歌内核
+        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
+        //火狐内核
+        mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+        //是否为移动终端
+        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+        //ios终端
+        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+        //android终端或uc浏览器
+        iPhone: u.indexOf('iPhone') > -1,
+        //是否为iPhone或者QQHD浏览器
+        iPad: u.indexOf('iPad') > -1,
+        //是否iPad
+        webApp: u.indexOf('Safari') == -1,
+        //是否web应该程序，没有头部与底部
+        iosv: u.substr(u.indexOf('iPhone OS') + 9, 3),
+        weixin: u2.match(/MicroMessenger/i) == "micromessenger",
+        ali: u.indexOf('AliApp') > -1,
+    };
+}
+var ua = parseUA();
+
+function identifyUA() {
+    var userAgent = navigator.userAgent.toLowerCase();
+    var platform = '';
+    if (userAgent == null || userAgent == '') {
+        platform = 'web';
+    } else {
+        if (userAgent.indexOf("android") != -1) {
+            platform = 'android';
+        } else if (userAgent.indexOf("ios") != -1 || userAgent.indexOf("iphone") != -1) {
+            platform = 'ios';
+        } else if (userAgent.indexOf("ipad") != -1) {
+            platform = 'ios';
+        } else if (userAgent.indexOf("windows phone") != -1) {
+            platform = 'windowsphone';
+        } else {
+            platform = 'web';
+        }
+    }
+    return platform;
+}
+```
+
+### 身份证验证
+
+``` js
+function chechCHNCardId(sNo) {
+    if (!this.regExpTest(sNo, /^[0-9]{17}[X0-9]$/)) {
+        return false;
+    }
+    sNo = sNo.toString();
+
+    var a, b, c;
+    a = parseInt(sNo.substr(0, 1)) * 7 + parseInt(sNo.substr(1, 1)) * 9 + parseInt(sNo.substr(2, 1)) * 10;
+    a = a + parseInt(sNo.substr(3, 1)) * 5 + parseInt(sNo.substr(4, 1)) * 8 + parseInt(sNo.substr(5, 1)) * 4;
+    a = a + parseInt(sNo.substr(6, 1)) * 2 + parseInt(sNo.substr(7, 1)) * 1 + parseInt(sNo.substr(8, 1)) * 6;
+    a = a + parseInt(sNo.substr(9, 1)) * 3 + parseInt(sNo.substr(10, 1)) * 7 + parseInt(sNo.substr(11, 1)) * 9;
+    a = a + parseInt(sNo.substr(12, 1)) * 10 + parseInt(sNo.substr(13, 1)) * 5 + parseInt(sNo.substr(14, 1)) * 8;
+    a = a + parseInt(sNo.substr(15, 1)) * 4 + parseInt(sNo.substr(16, 1)) * 2;
+    b = a % 11;
+
+    if (b == 2) {
+        c = sNo.substr(17, 1).toUpperCase();
+    } else {
+        c = parseInt(sNo.substr(17, 1));
+    }
+
+    switch (b) {
+        case 0:
+            if (c != 1) {
+                return false;
+            }
+            break;
+        case 1:
+            if (c != 0) {
+                return false;
+            }
+            break;
+        case 2:
+            if (c != "X") {
+                return false;
+            }
+            break;
+        case 3:
+            if (c != 9) {
+                return false;
+            }
+            break;
+        case 4:
+            if (c != 8) {
+                return false;
+            }
+            break;
+        case 5:
+            if (c != 7) {
+                return false;
+            }
+            break;
+        case 6:
+            if (c != 6) {
+                return false;
+            }
+            break;
+        case 7:
+            if (c != 5) {
+                return false;
+            }
+            break;
+        case 8:
+            if (c != 4) {
+                return false;
+            }
+            break;
+        case 9:
+            if (c != 3) {
+                return false;
+            }
+            break;
+        case 10:
+            if (c != 2) {
+                return false;
+            };
+    }
+    return true;
+}
+```
+
+## Polyfill
+
+### test in
+
+``` js
+// test Event
+var touch = "ontouchstart" in document ? 'touchstart' : 'mousedown';
+```
+
+### img error
 
 ``` html
 <img src="xx.jpg" onerror="this.src='placeholder.jpg';" alt="">
 ```
 
-## 关于内核
-
-- `webkit`内核的浏览器，比如`chrome`，`safari`的css3前缀为`-webkit-transform`
-- `Gecko`内核的浏览器，如`firefox`支持的css3前缀为`-moz-transform`
-- `Trident`内核的浏览器，如`IE`支持的css3前缀为`-ms-transform`
-- `Presto`内核浏览器，如`Opera`支持的css3前缀为`-o-transform`
-
-<!-- more -->
-
-## css前缀相关
+### css前缀相关
 
 ``` js
 // 获取到一个CSSStyleDeclaration对象，它是一个CSS属性键值对的集合。
@@ -168,7 +265,53 @@ function isCSS(property) {
 }
 ```
 
-## 获取元素的宽高等
+## 方法
+
+### ajax
+
+``` js
+/* 封装ajax函数
+ * @param {string}opt.type http连接的方式，包括POST和GET两种方式
+ * @param {string}opt.url 发送请求的url
+ * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
+ * @param {object}opt.data 发送的参数，格式为对象类型
+ * @param {function}opt.success ajax发送并接收成功调用的回调函数
+ */
+function ajax(opt) {
+    opt = opt || {};
+    opt.type = opt.type.toUpperCase() || 'POST';
+    opt.url = opt.url || '';
+    opt.async = opt.async || true;
+    opt.data = opt.data || null;
+    opt.success = opt.success || function () { };
+    var xmlHttp = null;
+    if (XMLHttpRequest) {
+        xmlHttp = new XMLHttpRequest();
+    } else {
+        xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+    } 
+    var params = [];
+    for (var key in opt.data) {
+        params.push(key + '=' + opt.data[key]);
+    }
+    var postData = params.join('&');
+    if (opt.type.toUpperCase() === 'POST') {
+        xmlHttp.open(opt.type, opt.url, opt.async);
+        xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
+        xmlHttp.send(postData);
+    } else if (opt.type.toUpperCase() === 'GET') {
+        xmlHttp.open(opt.type, opt.url + '?' + postData, opt.async);
+        xmlHttp.send(null);
+    }
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+            opt.success(xmlHttp.responseText);
+        }
+    }
+}
+```
+
+### 获取元素的宽高等
 
 使用原生js，有两种方法获取元素宽高
 
@@ -214,7 +357,7 @@ window.addEventListener('scroll', function () {
 
 关于`getBoundingClientRect`的兼容性，查看[MDN - getBoundingClientRect](https://developer.mozilla.org/zh-CN/docs/Web/API/Element/getBoundingClientRect)
 
-## 获取css样式
+### 获取css样式
 
 当我们在使用rem单位时，经常会碰到小数点的单位，而某些属性是不会拿到小数点单位的。测试如下：
 
@@ -234,17 +377,7 @@ console.log(getStyle(testElem, 'width')); // '98.5px'
 console.log(testElem.offsetWidth); // 99
 ```
 
-## Polyfill
-
-``` js
-// test Event
-var touch = "ontouchstart" in document ? 'touchstart' : 'mousedown';
-
-// device
-var _device = (window.location.href.indexOf('m.mia.com') > -1 || window.location.href.indexOf('m.miyabaobei.com') > -1) ? 'wap' : 'pc';
-```
-
-## 四舍五入
+### 四舍五入
 
 ``` js
 /**
@@ -265,7 +398,7 @@ function fomatFloat(src, pos) {
 fomatFloat(3.1415927, 3) //3.142
 ```
 
-## 点击空白处关闭某容器
+### 点击空白处关闭某容器
 
 ``` js
 $(document).on("click", function (e) {
@@ -278,7 +411,7 @@ $(document).on("click", function (e) {
 });
 ```
 
-## toApp
+### toApp
 
 ``` js
 // old
@@ -381,7 +514,7 @@ $('body').on('click', 'a.mia-downApp', function () {
 <a class="mia-downApp" href="https://itunes.apple.com/cn/app/mi-ya-bao-bei-zhong-guo-zui/id973366293?mt=8"></a>
 ```
 
-## offset
+### offset
 
 ``` js
 /**
@@ -415,7 +548,7 @@ function offset(elem) {
 }
 ```
 
-## 生成随机数
+### 生成随机数
 
 ``` js
 /**
@@ -428,7 +561,7 @@ var rdm = function (min, max) {
 }
 ```
 
-## 比较ua版本号
+### 比较ua版本号
 
 ``` js
 var ua = 'miyabaobei_ios_5.5.0';
@@ -458,22 +591,7 @@ console.log(compareVersion('5.4'));
 console.log(compareVersion('5.5'));
 ```
 
-## 验证css属性在浏览器中是否支持
-
-``` js
-var supportsPointerEvents = (function () {
-    var dummy = document.createElement('_');
-    if (!('pointerEvents' in dummy.style)) return false;
-    dummy.style.pointerEvents = 'auto';
-    dummy.style.pointerEvents = 'x';
-    document.body.appendChild(dummy);
-    var r = getComputedStyle(dummy).pointerEvents === 'auto';
-    document.body.removeChild(dummy);
-    return r;
-})();
-```
-
-## 浮点数取整
+### 浮点数取整
 
 ``` js
 const x = 123.4545;
@@ -487,7 +605,7 @@ Math.floor(-12.53); // -13
 -12.53 | 0; // -12      
 ```
 
-## 生成6位数字验证码
+### 生成6位数字验证码
 
 ``` js
 // 方法一
@@ -503,7 +621,7 @@ Math.random().toFixed(6).slice(-6);
 '' + Math.floor(Math.random() * 999999);
 ```
 
-## 16进制颜色代码生成
+### 16进制颜色代码生成
 
 ``` js
 (function () {
@@ -512,7 +630,7 @@ Math.random().toFixed(6).slice(-6);
 })();
 ```
 
-## n维数组展开成一维数组
+### n维数组展开成一维数组
 
 ``` js
 var foo = [1, [2, 3], ['4', 5, ['6', 7, [8]]], [9], 10];
@@ -545,23 +663,24 @@ flatten(foo); // [1, 2, 3, "4", 5, "6", 7, 8, 9, 10]
 // 注：更多方法请参考《How to flatten nested array in JavaScript?》
 ```
 
-## 驼峰命名转下划线
+### 驼峰命名转下划线
 
 ``` js
 'componentMapModelRegistry'.match(/^[a-z][a-z0-9]+|[A-Z][a-z0-9]*/g).join('_').toLowerCase();
 
-// // component_map_model_registry
+// => component_map_model_registry
 ```
 
-## trim
+### 删除前后空白字符trim
 
 ``` js
+// from https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
 String.prototype.trim = function () {
-    return this.replace(/(^\s*)|(\s*$)/g, "");
+    return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '')
 }
 ```
 
-## 获取url的参数
+### 获取url的参数
 
 ``` js
 function GetRequest() {
@@ -617,7 +736,7 @@ var query = function (search) {
 // query('?key1=value1&key2=value2'); // es6.html:14 {key1: "value1", key2: "value2"}
 ```
 
-## 特殊字符转义
+### 特殊字符转义
 
 ``` js
 function htmlspecialchars(str) {
@@ -628,7 +747,7 @@ function htmlspecialchars(str) {
 htmlspecialchars('&jfkds<>'); // "&amp;jfkds&lt;&gt;"
 ```
 
-## 动态插入js
+### 动态插入js
 
 ``` js
 function injectScript(src) {
@@ -642,7 +761,7 @@ function injectScript(src) {
 }
 ```
 
-## 格式化数量
+### 格式化数量
 
 ``` js
 // 方法一
@@ -671,91 +790,7 @@ function formatNum(str) {
 formatNum('2313323'); // "2,313,323"
 ```
 
-## 身份证验证
-
-``` js
-function chechCHNCardId(sNo) {
-    if (!this.regExpTest(sNo, /^[0-9]{17}[X0-9]$/)) {
-        return false;
-    }
-    sNo = sNo.toString();
-
-    var a, b, c;
-    a = parseInt(sNo.substr(0, 1)) * 7 + parseInt(sNo.substr(1, 1)) * 9 + parseInt(sNo.substr(2, 1)) * 10;
-    a = a + parseInt(sNo.substr(3, 1)) * 5 + parseInt(sNo.substr(4, 1)) * 8 + parseInt(sNo.substr(5, 1)) * 4;
-    a = a + parseInt(sNo.substr(6, 1)) * 2 + parseInt(sNo.substr(7, 1)) * 1 + parseInt(sNo.substr(8, 1)) * 6;
-    a = a + parseInt(sNo.substr(9, 1)) * 3 + parseInt(sNo.substr(10, 1)) * 7 + parseInt(sNo.substr(11, 1)) * 9;
-    a = a + parseInt(sNo.substr(12, 1)) * 10 + parseInt(sNo.substr(13, 1)) * 5 + parseInt(sNo.substr(14, 1)) * 8;
-    a = a + parseInt(sNo.substr(15, 1)) * 4 + parseInt(sNo.substr(16, 1)) * 2;
-    b = a % 11;
-
-    if (b == 2) {
-        c = sNo.substr(17, 1).toUpperCase();
-    } else {
-        c = parseInt(sNo.substr(17, 1));
-    }
-
-    switch (b) {
-        case 0:
-            if (c != 1) {
-                return false;
-            }
-            break;
-        case 1:
-            if (c != 0) {
-                return false;
-            }
-            break;
-        case 2:
-            if (c != "X") {
-                return false;
-            }
-            break;
-        case 3:
-            if (c != 9) {
-                return false;
-            }
-            break;
-        case 4:
-            if (c != 8) {
-                return false;
-            }
-            break;
-        case 5:
-            if (c != 7) {
-                return false;
-            }
-            break;
-        case 6:
-            if (c != 6) {
-                return false;
-            }
-            break;
-        case 7:
-            if (c != 5) {
-                return false;
-            }
-            break;
-        case 8:
-            if (c != 4) {
-                return false;
-            }
-            break;
-        case 9:
-            if (c != 3) {
-                return false;
-            }
-            break;
-        case 10:
-            if (c != 2) {
-                return false;
-            };
-    }
-    return true;
-}
-```
-
-## 单行写一个评级组件
+### 单行写一个评级组件
 
 ``` js
 function getRate(rate) {
@@ -764,7 +799,7 @@ function getRate(rate) {
 console.log(getRate(4)) // ★★★★☆
 ```
 
-## 匿名函数自执行写法
+### 匿名函数自执行写法
 
 ``` js
 ( function() {}() );
@@ -789,7 +824,7 @@ var f = function() {}();
 1 > function() {}();
 ```
 
-## 两个整数交换数值
+### 两个整数交换数值
 
 ``` js
 var a = 20, b = 30;
@@ -801,13 +836,13 @@ a; // 30
 b; // 20
 ```
 
-## 用最短的代码实现一个长度为m(6)且值都n(8)的数组
+### 用最短的代码实现一个长度为m(6)且值都n(8)的数组
 
 ``` js
 Array(6).fill(8); // [8, 8, 8, 8, 8, 8]
 ```
 
-## 将argruments对象转换成数组
+### 将argruments对象转换成数组
 
 ``` js
 var argArray = Array.prototype.slice.call(arguments);
@@ -819,13 +854,13 @@ var argArray = Array.from(arguments)
 var argArray = [...arguments];
 ```
 
-## 最短的代码实现数组去重
+### 最短的代码实现数组去重
 
 ``` js
 [...new Set([1, "1", 2, 1, 1, 3])]; // [1, "1", 2, 3]
 ```
 
-## JavaScript 错误处理的方式的正确姿势
+### JavaScript 错误处理的方式的正确姿势
 
 ``` js
 try {
@@ -835,7 +870,7 @@ try {
 }
 ```
 
-## 在浏览器中根据url下载文件
+### 在浏览器中根据url下载文件
 
 ``` js
 function download(url) {
@@ -863,7 +898,7 @@ function download(url) {
 }
 ```
 
-## 快速生成UUID
+### 快速生成UUID
 
 ``` js
 function uuid() {
@@ -878,7 +913,7 @@ function uuid() {
 uuid(); // "33f7f26656cb-499b-b73e-89a921a59ba6"
 ```
 
-## JavaScript浮点数精度问题
+### JavaScript浮点数精度问题
 
 ``` js
 function isEqual(n1, n2, epsilon) {
@@ -891,7 +926,7 @@ isEqual(0.1 + 0.2, 0.3); // true
 isEqual(0.7 + 0.1 + 99.1 + 0.1, 100); // true
 ```
 
-## 格式化表单数据
+### 格式化表单数据
 
 ``` js
 function formatParam(obj) {
@@ -936,7 +971,7 @@ var param = {
 formatParam(param); // "name=12&likes%5B0%5D=0&likes%5B1%5D=1&likes%5B2%5D=3&memberCard%5B0%5D%5Btitle%5D=1&memberCard%5B0%5D%5Bid%5D=1&memberCard%5B1%5D%5Btitle%5D=2&memberCard%5B1%5D%5Bid%5D=2"
 ```
 
-## 创建指定长度非空数组
+### 创建指定长度非空数组
 
 在JavaScript中可以通过new Array(3)的形式创建一个长度为3的空数组。在老的Chrome中其值为[undefined x 3]，在最新的Chrome中为[empty x 3]，即空单元数组。在老Chrome中，相当于显示使用[undefined, undefined, undefined]的方式创建长度为3的数组。
 
@@ -959,13 +994,13 @@ a.map((v, i) => i); // [0, 1, 2]
 
 总之，尽量不要创建和使用空单元数组。
 
-## 验证是否为负数的正则表达式
+### 验证是否为负数的正则表达式
 
 ``` js
 /^-\d+$/.test(str);
 ```
 
-## 数字四舍五入
+### 数字四舍五入
 
 ``` js
 // v: 值，p: 精度
@@ -977,7 +1012,7 @@ function (v, p) {
 round(123.45353, 2); // 123.45
 ```
 
-## 使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1
+### 使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1
 
 ``` js
 var str = 'hello world';
@@ -990,7 +1025,7 @@ if (~str.indexOf('lo')) {
 }
 ```
 
-## 统计字符串中相同字符出现的次数
+### 统计字符串中相同字符出现的次数
 
 ``` js
 var arr = 'photoshop';
@@ -998,7 +1033,7 @@ var info = arr.split('').reduce((p, k) => (p[k]++ || (p[k] = 1), p), {});
 console.log(info); // { p: 2, h: 2, o: 3, t: 1, s: 1 }
 ```
 
-## 测试质数
+### 测试质数
 
 ``` js
 function isPrime(n) {
@@ -1006,7 +1041,7 @@ function isPrime(n) {
 }
 ```
 
-## 截取指定字节数的字符串
+### 截取指定字节数的字符串
 
 ``` js
 /**
@@ -1037,7 +1072,7 @@ function cutString(str, len, suffix) {
 }
 ```
 
-## 获取时间格式的几个举例
+### 获取时间格式的几个举例
 
 ``` js
 // 方法一
@@ -1082,7 +1117,7 @@ Date.prototype.format = function (fmt) {
 new Date().format('yy-M-d h:m:s'); // 17-10-14 22:18:17
 ```
 
-## 文本相关
+### 文本相关
 
 ``` js
 /**
@@ -1123,7 +1158,7 @@ var text = '贷款买房，也意味着你能给自己的资产加杠杆，能�
 wordCount(text); // 38
 ```
 
-## 对象克隆、深拷贝
+### 对象克隆、深拷贝
 
 ``` js
 /**
@@ -1182,7 +1217,7 @@ function clone(obj) {
 }
 ```
 
-## js正则为url添加http标识
+### js正则为url添加http标识
 
 ``` js
 var html = 'http://www.google.com ';
@@ -1201,9 +1236,21 @@ html = html.replace(regex, function (match, capture) {
 });
 console.log('after replace:');
 console.log(html);
+
+// 将图片链接开头的http(s)替换为//
+function handleImgProtocol(src) {
+    let reg = /^\/\/|(https?):\/\//gi;
+    let _match = src.match(reg)
+    if (_match) {
+        src = src.replace(_match[0], '//')
+    } else {
+        src = '//' + src
+    }
+    return src
+}
 ```
 
-## URL有效性校验方法
+### URL有效性校验方法
 
 ``` js
 /**
@@ -1231,7 +1278,7 @@ functionisURL(str) {
 }
 ```
 
-## 自定义封装jsonp方法
+### 自定义封装jsonp方法
 
 ``` js
 /**
@@ -1285,7 +1332,7 @@ formatParams = function (data) {
 }
 ```
 
-## cookie操作
+### cookie操作
 
 ``` js
 //写cookies
@@ -1325,7 +1372,7 @@ var delCookie = function (name) {
 }
 ```
 
-## 生成随机字符串 (可指定长度)
+### 生成随机字符串 (可指定长度)
 
 ``` js
 /**
@@ -1346,64 +1393,7 @@ var randomString = function (len) {
 }
 ```
 
-## 浏览器判断
-
-``` js
-function parseUA() {
-    var u = navigator.userAgent;
-    var u2 = navigator.userAgent.toLowerCase();
-    return { //移动终端浏览器版本信息
-        trident: u.indexOf('Trident') > -1,
-        //IE内核
-        presto: u.indexOf('Presto') > -1,
-        //opera内核
-        webKit: u.indexOf('AppleWebKit') > -1,
-        //苹果、谷歌内核
-        gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') == -1,
-        //火狐内核
-        mobile: !!u.match(/AppleWebKit.*Mobile.*/),
-        //是否为移动终端
-        ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
-        //ios终端
-        android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
-        //android终端或uc浏览器
-        iPhone: u.indexOf('iPhone') > -1,
-        //是否为iPhone或者QQHD浏览器
-        iPad: u.indexOf('iPad') > -1,
-        //是否iPad
-        webApp: u.indexOf('Safari') == -1,
-        //是否web应该程序，没有头部与底部
-        iosv: u.substr(u.indexOf('iPhone OS') + 9, 3),
-        weixin: u2.match(/MicroMessenger/i) == "micromessenger",
-        ali: u.indexOf('AliApp') > -1,
-    };
-}
-var ua = parseUA();
-
-
-function identifyUA() {
-    var userAgent = navigator.userAgent.toLowerCase();
-    var platform = '';
-    if (userAgent == null || userAgent == '') {
-        platform = 'web';
-    } else {
-        if (userAgent.indexOf("android") != -1) {
-            platform = 'android';
-        } else if (userAgent.indexOf("ios") != -1 || userAgent.indexOf("iphone") != -1) {
-            platform = 'ios';
-        } else if (userAgent.indexOf("ipad") != -1) {
-            platform = 'ios';
-        } else if (userAgent.indexOf("windows phone") != -1) {
-            platform = 'windowsphone';
-        } else {
-            platform = 'web';
-        }
-    }
-    return platform;
-}
-```
-
-## Rem移动端适配
+### Rem移动端适配
 
 ``` js
 var rem = {
@@ -1434,3 +1424,9 @@ var rem = {
 rem.initHandle();
 ```
 
+### 关于内核
+
+- `webkit`内核的浏览器，比如`chrome`，`safari`的css3前缀为`-webkit-transform`
+- `Gecko`内核的浏览器，如`firefox`支持的css3前缀为`-moz-transform`
+- `Trident`内核的浏览器，如`IE`支持的css3前缀为`-ms-transform`
+- `Presto`内核浏览器，如`Opera`支持的css3前缀为`-o-transform`
