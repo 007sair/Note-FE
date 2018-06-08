@@ -20,6 +20,8 @@
 - [postcss](./webpack/postcss.md)
 - [property](./webpack/property.md)
 - [webpack-dev-server](./webpack/webpack-dev-server.md)
+- [html-webpack-plugin和html-loader冲突](./webpack/html-webpack-plugin和html-loader冲突.md)
+- [其他坑](./webpack/其他坑.md)
 
 #### 参考
 

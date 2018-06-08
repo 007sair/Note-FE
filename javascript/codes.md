@@ -14,12 +14,12 @@
  * @returns {Boolean}
  */
 function isApp() {
-    var href = window.location.href;
-    var re = href.indexOf('_app');
-    if (navigator.userAgent.indexOf('miyabaobei_') > -1 || re !== -1) {
-        return true;
+    var re = window.location.href.indexOf('_app')
+    var ua = window.navigator.userAgent
+    if (ua.indexOf('{{URL Schemes}}') > -1 || re !== -1) {
+        return true
     }
-    return false;
+    return false
 }
 
 /**
@@ -29,26 +29,10 @@ function isApp() {
 function isWeiXin() {
     var ua = window.navigator.userAgent.toLowerCase();
     if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-        return true;
-    } else {
-        return false;
+        return true
     }
+    return false
 }
-```
-
-### 验证css属性在浏览器中是否支持
-
-``` js
-var supportsPointerEvents = (function () {
-    var dummy = document.createElement('_');
-    if (!('pointerEvents' in dummy.style)) return false;
-    dummy.style.pointerEvents = 'auto';
-    dummy.style.pointerEvents = 'x';
-    document.body.appendChild(dummy);
-    var r = getComputedStyle(dummy).pointerEvents === 'auto';
-    document.body.removeChild(dummy);
-    return r;
-})();
 ```
 
 ### 浏览器判断
@@ -105,6 +89,21 @@ function identifyUA() {
     }
     return platform;
 }
+```
+
+### 验证css属性在浏览器中是否支持
+
+``` js
+var supportsPointerEvents = (function () {
+    var dummy = document.createElement('_');
+    if (!('pointerEvents' in dummy.style)) return false;
+    dummy.style.pointerEvents = 'auto';
+    dummy.style.pointerEvents = 'x';
+    document.body.appendChild(dummy);
+    var r = getComputedStyle(dummy).pointerEvents === 'auto';
+    document.body.removeChild(dummy);
+    return r;
+})();
 ```
 
 ### 身份证验证
@@ -395,7 +394,25 @@ function fomatFloat(src, pos) {
     return src
 }
 
-fomatFloat(3.1415927, 3) //3.142
+fomatFloat(Math.PI) // 3.1
+fomatFloat(Math.PI, 2) // 3.14
+fomatFloat('3.14521') // 3.1
+fomatFloat('3.14521', 2) // 3.15
+```
+
+### 数字四舍五入
+
+``` js
+// v: 值，p: 精度
+function round(v, p) {
+    p = Math.pow(10, p >>> 31 ? 0 : p | 0)
+    v *= p;
+    return (v + 0.5 + (v >> 31) | 0) / p
+}
+
+round(123.45353, 2) // 123.45
+round('3.1455', 3) // 3.146
+round(NaN, 1) // 0
 ```
 
 ### 点击空白处关闭某容器
@@ -439,7 +456,7 @@ function testApp(url) {
     }, t);
 }
 
-#example
+// html example
 <a href="javascript:testApp('地址地址地址')">团购</a>
 
 // new
@@ -510,11 +527,11 @@ $('body').on('click', 'a.mia-downApp', function () {
 })
 
 
-#example
+// html example
 <a class="mia-downApp" href="https://itunes.apple.com/cn/app/mi-ya-bao-bei-zhong-guo-zui/id973366293?mt=8"></a>
 ```
 
-### offset
+### Offset
 
 ``` js
 /**
@@ -556,7 +573,7 @@ function offset(elem) {
 * @param   {number} min 最小值（包含）
 * @param   {number} max 最大值（包含）
 */
-var rdm = function (min, max) {
+function rdm(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 ```
@@ -586,9 +603,9 @@ function compareVersion(ver) {
     }
 }
 
-console.log(compareVersion('5.5.3'));
-console.log(compareVersion('5.4'));
-console.log(compareVersion('5.5'));
+compareVersion('5.5.3') // 0
+compareVersion('5.4') // 1
+compareVersion('5.5') // 1
 ```
 
 ### 浮点数取整
@@ -709,6 +726,9 @@ function getQueryString(name) {
     return null;
 }
 
+// http://xxx/index.html?a=1&b=2
+// getQueryString('a') => 1
+
 // es6 实现传入 search
 const query = (search = '') => ((querystring = '') => (q => (querystring.split('&').forEach(item => (kv => kv[0] && (q[kv[0]] = kv[1]))(item.split('='))), q))({}))(search.split('?')[1]);
 
@@ -750,11 +770,11 @@ htmlspecialchars('&jfkds<>'); // "&amp;jfkds&lt;&gt;"
 ### 动态插入js
 
 ``` js
-function injectScript(src) {
+function injectScript(src, isAsync = false) {
     var s, t;
     s = document.createElement('script');
     s.type = 'text/javascript';
-    // s.async = true; // async
+    s.async = isAsync; // async
     s.src = src;
     t = document.getElementsByTagName('script')[0];
     t.parentNode.insertBefore(s, t);
@@ -786,7 +806,6 @@ function formatNum(str) {
         return ((index % 3) ? next : (next + ',')) + prev
     });
 }
-
 formatNum('2313323'); // "2,313,323"
 ```
 
@@ -796,7 +815,7 @@ formatNum('2313323'); // "2,313,323"
 function getRate(rate) {
     return "★★★★★☆☆☆☆☆".slice(5 - rate, 10 - rate)
 }
-console.log(getRate(4)) // ★★★★☆
+getRate(4)// ★★★★☆
 ```
 
 ### 匿名函数自执行写法
@@ -864,10 +883,51 @@ var argArray = [...arguments];
 
 ``` js
 try {
-    something
+    // do something
 } catch (e) {
     window.location.href = "http://stackoverflow.com/search?q=[js]+" + e.message;
 }
+```
+
+### 保存图片到本地
+
+``` js
+/**
+ * #1 不加的话FF下无法触发下载
+ */
+let src = 'http://xxx.com/a.jpg'
+
+function getBlob(url) {
+    return new Promise(resolve => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.responseType = 'blob';
+        xhr.onload = () => {
+            if (xhr.status === 200) {
+                resolve(xhr.response);
+            }
+        };
+        xhr.send();
+    });
+}
+
+function saveAs(blob, filename) {
+    if (window.navigator.msSaveOrOpenBlob) {
+        navigator.msSaveBlob(blob, filename);
+    } else {
+        const link = document.createElement('a');
+        link.style.display = 'none'  // #1
+        document.body.appendChild(link)   // #1
+        link.href = window.URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        window.URL.revokeObjectURL(link.href);
+    }
+}
+
+getBlob(src).then(blob => {
+    saveAs(blob, 'name.png');
+});
 ```
 
 ### 在浏览器中根据url下载文件
@@ -998,18 +1058,6 @@ a.map((v, i) => i); // [0, 1, 2]
 
 ``` js
 /^-\d+$/.test(str);
-```
-
-### 数字四舍五入
-
-``` js
-// v: 值，p: 精度
-function (v, p) {
-    p = Math.pow(10, p >>> 31 ? 0 : p | 0)
-    v *= p;
-    return (v + 0.5 + (v >> 31) | 0) / p
-}
-round(123.45353, 2); // 123.45
 ```
 
 ### 使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1
