@@ -1,6 +1,4 @@
-# 笔记
-
-备忘笔记、记录坑
+备忘笔记，记录工作中遇到的坑及解决问题的过程
 
 ## Javascript
 
@@ -8,7 +6,11 @@
 
 ## Webpack
 
-> [webpack中文文档](https://doc.webpack-china.org/)
+#### 文档
+
+- [*官方文档](https://webpack.docschina.org/concepts/)
+- [webpack中文文档（v3.5.5）](http://www.css88.com/doc/webpack/)
+- [一些模块变量](https://webpack.docschina.org/api/module-variables/)
 
 #### 目录
 
@@ -33,6 +35,7 @@
 - [Webpack——令人困惑的地方](http://blog.csdn.net/a1104258464/article/details/51914450)
 - [webpack 使用优化指南](http://www.cnblogs.com/yumeiqiang/p/5281170.html)
 - [vue-cli中的webpack配置](https://segmentfault.com/a/1190000008779053)
+- [package.json以及webpack配置](https://github.com/Pearyman/vue-lessons/issues/4)
 
 ## Gulp
 

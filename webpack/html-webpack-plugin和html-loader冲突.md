@@ -61,7 +61,7 @@ module.exports = {
 Refused to apply style from '<URL>' because its MIME type ('text/html') is not a supported stylesheet MIME type, and strict MIME checking is enabled.
 ```
 
-错误原因：页面样式路径引用不合法，即`html-webpack-plugin`的资源替换未起作用，但可以正常引入`entry.js`。
+错误原因：页面样式路径引用不合法，即`html-webpack-plugin`的资源替换未起作用，但可以自动引用`bundle.js`。
 
 ## 场景2
 
