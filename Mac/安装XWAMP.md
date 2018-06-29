@@ -62,6 +62,7 @@ Include etc/extra/httpd-vhosts.conf
 **方法1：**
 
 1、点击`Finder`，在顶部菜单栏选择`前往` -> `前往文件夹`，输入`/private/etc/`这个路径
+
 2、找到`hosts`文件，复制一份到桌面。用`Mac OS X`系统自带的文本编辑器就能编辑`hosts`文件。添加好你要访问（或者拦截）的网站相关`hosts`信息后保存，拖回`Finder`里的`/private/etc/`文件夹下即可。拖回去的时候，Mac 会弹出报警说无法移动项目。点击`认证`按钮然后输入电脑密码即可。
 
 **方法2：**
