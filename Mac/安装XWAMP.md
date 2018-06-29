@@ -22,7 +22,7 @@
 127.0.0.1  local.dfq.com
 ```
 
-3、在`/Applications/XAMPP/xamppfiles/etc中找到httpd.conf`文件中搜索`Directory`关键词，找到这里,把前面两行注释掉添加后面四行
+3、在`/Applications/XAMPP/xamppfiles/etc`中找到`httpd.conf`文件中搜索`Directory`关键词，把前面两行注释掉，添加后面四行
 
 ``` bash
 <Directory />
