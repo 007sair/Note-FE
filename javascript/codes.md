@@ -2,10 +2,6 @@
 
 > 其他链接：[30 秒就能理解的 JavaScript 代码片段](http://www.css88.com/30-seconds-of-code/)
 
-[TOC]
-
-## 验证相关
-
 ### is
 
 ``` js
@@ -190,8 +186,6 @@ function chechCHNCardId(sNo) {
 }
 ```
 
-## Polyfill
-
 ### test in
 
 ``` js
@@ -263,8 +257,6 @@ function isCSS(property) {
     return (name in divStyle) && name || '';
 }
 ```
-
-## 方法
 
 ### ajax
 
@@ -1013,7 +1005,7 @@ function formatParam(obj) {
         } else if (value !== undefined && value !== null)
             query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
     }
-    return query.length ? query.substr(0, query.length - 1) : query;
+    return query.length ? query.substr(0, query.length - 1) : query
 }
 var param = {
     name: 'jenemy',
@@ -1033,9 +1025,9 @@ formatParam(param); // "name=12&likes%5B0%5D=0&likes%5B1%5D=1&likes%5B2%5D=3&mem
 
 ### 创建指定长度非空数组
 
-在JavaScript中可以通过new Array(3)的形式创建一个长度为3的空数组。在老的Chrome中其值为[undefined x 3]，在最新的Chrome中为[empty x 3]，即空单元数组。在老Chrome中，相当于显示使用[undefined, undefined, undefined]的方式创建长度为3的数组。
+在JavaScript中可以通过`new Array(3)`的形式创建一个长度为3的空数组。在老的Chrome中其值为`[undefined x 3]`，在最新的Chrome中为`[empty x 3]`，即空单元数组。在老Chrome中，相当于显示使用`[undefined, undefined, undefined]`的方式创建长度为3的数组。
 
-但是，两者在调用map()方法的结果是明显不同的
+但是，两者在调用`map()`方法的结果是明显不同的
 
 ``` js
 var a = new Array(3);
@@ -1044,7 +1036,7 @@ a.map((v, i) => i); // [empty × 3]
 b.map((v, i) => i); // [0, 1, 2]
 ```
 
-多数情况我们期望创建的是包含undefined值的指定长度的空数组，可以通过下面这种方法来达到目的：
+多数情况我们期望创建的是包含`undefined`值的指定长度的空数组，可以通过下面这种方法来达到目的：
 
 ``` js
 var a = Array.apply(null, { length: 3 });
@@ -1060,7 +1052,7 @@ a.map((v, i) => i); // [0, 1, 2]
 /^-\d+$/.test(str);
 ```
 
-### 使用 ~x.indexOf('y')来简化 x.indexOf('y')>-1
+### 使用`~x.indexOf('y')`来简化`x.indexOf('y')>-1`
 
 ``` js
 var str = 'hello world';
