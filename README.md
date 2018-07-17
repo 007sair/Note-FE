@@ -3,6 +3,7 @@
 ## H5
 
 - [iso中:active不起作用的解决方法](./H5/ios中active不起作用.md)
+- [调试微信jssdk](./H5/调试微信jssdk.md)
 
 ## Javascript
 
