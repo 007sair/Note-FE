@@ -4,6 +4,7 @@
 
 - [iso中:active不起作用的解决方法](./H5/ios中active不起作用.md)
 - [调试微信jssdk](./H5/调试微信jssdk.md)
+- [图片异步加载.md](./H5/图片异步加载.md)
 
 ## Javascript
 
@@ -13,7 +14,7 @@
 
 #### 文档
 
-- [*官方文档](https://webpack.docschina.org/concepts/)
+- [官方文档](https://webpack.docschina.org/concepts/)
 - [webpack中文文档（v3.5.5）](http://www.css88.com/doc/webpack/)
 - [一些模块变量](https://webpack.docschina.org/api/module-variables/)
 
