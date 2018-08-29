@@ -1,5 +1,4 @@
-
-## `Invalid Host Header`
+# `Invalid Host Header`
 
 修改本地hosts后，访问指向域名时页面报`Invalid Host Header`
 

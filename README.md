@@ -4,7 +4,7 @@
 
 - [iso中:active不起作用的解决方法](./H5/ios中active不起作用.md)
 - [调试微信jssdk](./H5/调试微信jssdk.md)
-- [图片异步加载.md](./H5/图片异步加载.md)
+- [图片异步加载](./H5/图片异步加载.md)
 
 ## Javascript
 
@@ -21,6 +21,7 @@
 #### 目录
 
 - [相关命令](./webpack/相关命令.md)
+- [代码拆分](./webpack/代码拆分.md)
 - [区别开发环境与测试环境](./webpack/区别开发环境与测试环境.md)
 - [获取多页面入口](./webpack/获取多页面入口.md)
 - [loader](./webpack/loader.md)
@@ -29,7 +30,8 @@
 - [property](./webpack/property.md)
 - [webpack-dev-server](./webpack/webpack-dev-server.md)
 - [html-webpack-plugin和html-loader冲突](./webpack/html-webpack-plugin和html-loader冲突.md)
-- [其他坑](./webpack/其他坑.md)
+- [Invalid Host Header](./webpack/Invalid-Host-Header.md)
+- [获取hash值](./webpack/获取hash值.md)
 
 #### 参考
 
