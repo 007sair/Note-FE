@@ -2,9 +2,10 @@
 
 ## H5
 
-- [iso中:active不起作用的解决方法](./H5/ios中active不起作用.md)
-- [调试微信jssdk](./H5/调试微信jssdk.md)
+- [IOS中:active不起作用的解决方法](./H5/ios中active不起作用.md)
+- [调试微信JS_SDK](./H5/调试微信jssdk.md)
 - [图片异步加载](./H5/图片异步加载.md)
+- [SPA在服务器中的配置](./H5/SPA在服务器中的配置.md)
 
 ## Javascript
 
