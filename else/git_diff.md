@@ -1,6 +1,6 @@
 # `git diff`排除某些文件或目录
 
-做项目时经常需要`diff`查看文件变化。但是文件中经常包含一些构建出来的文件，如`dist目录`、`index.min.js`、`style.min.css`等，此类文件多数为压缩后的代码，基本无法`diff`查看。
+做项目时经常需要`diff`查看文件变化。但是文件中经常包含一些构建出来的文件，如`dist目录`、`index.min.js`、`style.min.css`等，此类文件多数为压缩后的代码，基本无法`diff`查看。
 
 所以，就需要对这类文件进行排除，只`diff`开发文件。目前有如下两种方法：
 
@@ -14,7 +14,7 @@ $ git status| grep modified | grep -v 'dist' | awk '{print $2}' | xargs git diff
 
 此方法来自博文老师。
 
-缺点：抓不到删除、冲突文件，所以，推荐使用下面方法。
+缺点：抓不到删除、冲突文件，所以，推荐使用下面方法。
 
 ## 二、使用`.gitattributes`文件
 
