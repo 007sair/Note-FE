@@ -58,3 +58,7 @@ todo...
 ## Vue
 
 - [组件](./vue/组件.md)
+
+## 其他
+
+- [git diff排除某些文件or目录](./else/git_diff.md)
