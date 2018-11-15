@@ -2,14 +2,27 @@
 
 ## H5
 
-- [IOS中:active不起作用的解决方法](./H5/ios中active不起作用.md)
-- [调试微信JS_SDK](./H5/调试微信jssdk.md)
+- [ios中active不起作用的解决方法](./H5/ios中active不起作用.md)
 - [图片异步加载](./H5/图片异步加载.md)
-- [SPA在服务器中的配置](./H5/SPA在服务器中的配置.md)
 
 ## Javascript
 
 - [代码片段](./javascript/codes.md)
+- [调试微信JS_SDK](./javascript/调试微信jssdk.md)
+
+## 其他
+
+- [SPA在服务器中的配置](./else/SPA在服务器中的配置.md)
+- [git diff排除某些文件或目录](./else/git_diff.md)
+
+## Vue
+
+- [组件](./vue/组件.md)
+
+## Mac
+
+- [安装XWAMP](./Mac/安装XWAMP.md)
+- [建立软链接](./Mac/建立软链接.md)
 
 ## Webpack
 
@@ -46,19 +59,6 @@
 - [vue-cli中的webpack配置](https://segmentfault.com/a/1190000008779053)
 - [package.json以及webpack配置](https://github.com/Pearyman/vue-lessons/issues/4)
 
-## Mac
-
-- [安装XWAMP](./Mac/安装XWAMP.md)
-- [建立软链接](./Mac/建立软链接.md)
-
 ## Gulp
 
-todo...
-
-## Vue
-
-- [组件](./vue/组件.md)
-
-## 其他
-
-- [git diff排除某些文件or目录](./else/git_diff.md)
+ToDo...
